@@ -3,7 +3,7 @@ import aiohttp
 import bs4
 
 
-CM_BASE_URL = "https://channelmyanmar.org/austin-powers-in-goldmember-2002"
+CM_BASE_URL = "https://channelmyanmar.to/austin-powers-in-goldmember-2002"
 
 
 async def main() -> None:
