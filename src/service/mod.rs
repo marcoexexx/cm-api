@@ -26,7 +26,7 @@ async fn get_document(url: &str) -> Html {
     scraper::Html::parse_document(&response)
 }
 
-struct Selectors {
+pub struct Selectors {
     pub new_release: String,
 }
 

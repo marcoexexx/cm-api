@@ -10,8 +10,6 @@ use error::Error;
 use model::{Video, VideoLinkInfo};
 use serde::Deserialize;
 
-// const TEST_VIDEO_URL: &str = "/austin-powers-in-goldmember-2002";
-
 #[derive(Deserialize)]
 struct DownloadLinkQuery {
     slug: String,
