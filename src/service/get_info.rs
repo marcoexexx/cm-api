@@ -1,21 +1,9 @@
-use reqwest::Client;
 use scraper::selectable::Selectable;
 
 use crate::model::{self, VideoLinkInfo};
 
 pub async fn get_video_link_info(url: &str) -> Result<Vec<VideoLinkInfo>, crate::Error> {
-    let client = Client::new();
-
-    let response = client
-        .get(url)
-        .send()
-        .await
-        .expect("Unable to `GET` request.")
-        .text()
-        .await
-        .expect("unable to get text from response.");
-
-    let document = scraper::Html::parse_document(&response);
+    let document = super::get_document(url).await;
 
     let li_selector = scraper::Selector::parse("li.elemento").expect("Unable to parse li selector");
     let a_selector = scraper::Selector::parse("a").expect("Unable to parse a selector");

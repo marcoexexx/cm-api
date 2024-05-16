@@ -7,28 +7,32 @@ use axum::routing::get;
 use axum::{Json, Router};
 
 use error::Error;
-use model::VideoLinkInfo;
+use model::{Video, VideoLinkInfo};
 use serde::Deserialize;
 
-// const TEST_VIDEO_URL: &str = "https://channelmyanmar.to/austin-powers-in-goldmember-2002";
+// const TEST_VIDEO_URL: &str = "/austin-powers-in-goldmember-2002";
 
 #[derive(Deserialize)]
 struct DownloadLinkQuery {
-    video_link: String,
+    slug: String,
 }
 
 async fn get_download_link_handler(
-    Query(DownloadLinkQuery { video_link }): Query<DownloadLinkQuery>,
+    Query(DownloadLinkQuery { slug }): Query<DownloadLinkQuery>,
 ) -> Json<Vec<VideoLinkInfo>> {
-    let movie = service::get_info::get_video_link_info(&video_link)
+    let movie = service::get_info::get_video_link_info(&slug)
         .await
         .expect("Unable to get video info");
 
     Json(movie)
 }
 
-async fn get_videos_handler() -> Json<Vec<String>> {
-    Json(vec![String::from("Video_1")])
+async fn get_videos_handler() -> Json<Vec<Video>> {
+    let random_movies = service::get_movies::get_random_movies()
+        .await
+        .expect("Unable to get random movies");
+
+    Json(random_movies)
 }
 
 #[shuttle_runtime::main]

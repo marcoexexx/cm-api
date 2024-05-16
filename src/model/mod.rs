@@ -20,7 +20,7 @@ impl VideoLinkInfo {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Video {
+    pub cm_link: String,
     pub title: String,
     pub image: String,
-    pub links: Vec<VideoLinkInfo>
 }
