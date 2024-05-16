@@ -39,7 +39,8 @@ pub async fn get_random_movies() -> Result<Vec<model::Video>, error::Error> {
             .map_or(String::new(), String::from);
 
         new_release_movies.push(model::Video {
-            cm_link,
+            cm_link: cm_link.clone(),
+            slug: cm_link.split("/").nth(3).unwrap_or("").to_owned(),
             title,
             image,
         })

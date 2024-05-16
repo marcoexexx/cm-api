@@ -18,11 +18,6 @@ async fn get_document(url: &str) -> Html {
         .await
         .expect("Failed to parse reposne text.");
 
-    // File::create("out.html")
-    //     .unwrap()
-    //     .write_all(response.as_bytes())
-    //     .unwrap();
-
     scraper::Html::parse_document(&response)
 }
 

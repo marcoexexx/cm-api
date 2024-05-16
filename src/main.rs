@@ -2,12 +2,11 @@ mod error;
 mod model;
 mod service;
 
-use axum::extract::Query;
-use axum::routing::get;
-use axum::{Json, Router};
+use axum::{extract::Query, http::HeaderValue, routing::get, Json, Router};
 
 use error::Error;
 use model::{Video, VideoLinkInfo};
+use reqwest::Method;
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -35,9 +34,22 @@ async fn get_videos_handler() -> Json<Vec<Video>> {
 
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
+    let origins = [
+        "http://127.0.0.1:33037".parse::<HeaderValue>().unwrap(),
+        "http://127.0.0.1".parse::<HeaderValue>().unwrap(),
+        "http://localhost:33037".parse::<HeaderValue>().unwrap(),
+        "http://localhost".parse::<HeaderValue>().unwrap(),
+    ];
+
+    let cors = tower_http::cors::CorsLayer::new()
+        .allow_methods([Method::GET])
+        // .allow_origin(tower_http::cors::Any);
+        .allow_origin(origins);
+
     let router = Router::new()
-        .route("/videos", get(get_videos_handler))
-        .route("/", get(get_download_link_handler));
+        .route("/", get(get_videos_handler))
+        .route("/download", get(get_download_link_handler))
+        .layer(cors);
 
     Ok(router.into())
 }
