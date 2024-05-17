@@ -21,29 +21,35 @@ pub async fn get_video_link_info(url: &str) -> Result<Vec<VideoLinkInfo>, crate:
                 .value()
                 .attr("href")
                 .map_or(String::from("NotFound"), String::from);
+
             let protocol = a
                 .select(&protocol_selector)
                 .next()
-                .map_or(String::from("NotFound"), |el| {
-                    el.inner_html().trim().to_string()
-                })
-                .to_string();
+                .unwrap()
+                .text()
+                .nth(1)
+                .unwrap()
+                .split("\n")
+                .nth(1)
+                .unwrap();
+
             let size = a
                 .select(&size_selector)
                 .next()
-                .map_or(String::from("NotFound"), |el| {
-                    el.inner_html().trim().to_string()
-                })
-                .to_string();
+                .unwrap()
+                .text()
+                .next()
+                .unwrap();
+
             let quality = a
                 .select(&quality_selector)
                 .next()
-                .map_or(String::from("NotFound"), |el| {
-                    el.inner_html().trim().to_string()
-                })
-                .to_string();
+                .unwrap()
+                .text()
+                .next()
+                .unwrap();
 
-            movies.push(model::VideoLinkInfo::new(&protocol, &size, &quality, &link));
+            movies.push(model::VideoLinkInfo::new(&protocol, &link, &size, &quality));
         }
     }
 
