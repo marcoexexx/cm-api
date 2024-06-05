@@ -1,3 +1,5 @@
+use serde::Serialize;
+
 pub struct DownloadInfo {
   pub protocol: String,
   pub link: String,
@@ -5,6 +7,7 @@ pub struct DownloadInfo {
   pub quality: String,
 }
 
+#[derive(Serialize)]
 pub struct Video {
   pub title: String,
   pub slug: String,

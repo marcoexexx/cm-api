@@ -2,10 +2,10 @@ use scraper::selectable::Selectable;
 use scraper::Selector;
 
 use super::get_selectors;
-use crate::error::Error;
+use crate::error::Result;
 use crate::model::video::Video;
 
-pub async fn get_random_movies() -> Result<Vec<Video>, Error> {
+pub async fn get_random_movies() -> Result<Vec<Video>> {
   let mut new_release_movies = Vec::new();
 
   let selectors = get_selectors();

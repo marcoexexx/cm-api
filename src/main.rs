@@ -6,6 +6,7 @@ mod error;
 mod model;
 mod service;
 mod web;
+mod ctx;
 
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
@@ -20,7 +21,7 @@ async fn main() -> shuttle_axum::ShuttleAxum {
     .allow_methods([Method::GET])
     .allow_origin(origins);
 
-  let router = Router::new().merge(web::video_routes::routes()).layer(cors);
+  let router = Router::new().merge(web::movie_routes::routes()).layer(cors);
 
   Ok(router.into())
 }

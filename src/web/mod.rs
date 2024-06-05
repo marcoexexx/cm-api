@@ -1,1 +1,1 @@
-pub mod video_routes;
+pub mod movie_routes;
