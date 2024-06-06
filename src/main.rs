@@ -1,9 +1,10 @@
 #![allow(unused)]
 
 use axum::http::HeaderValue;
+use axum::response::IntoResponse;
 use axum::Router;
 use dotenv::dotenv;
-use reqwest::Method;
+use reqwest::{Method, StatusCode};
 
 mod ctx;
 mod error;
@@ -12,6 +13,10 @@ mod response;
 mod service;
 mod utils;
 mod web;
+
+async fn fallback_handler() -> impl IntoResponse {
+  (StatusCode::NOT_FOUND, "nothing to see here")
+}
 
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
@@ -28,9 +33,12 @@ async fn main() -> shuttle_axum::ShuttleAxum {
     .allow_methods([Method::GET])
     .allow_origin(origins);
 
+  let api_router = web::movie_routes::routes()
+    .route_layer(axum::middleware::from_fn(web::mw_auth::mw_require_auth));
+
   let router = Router::new()
-    .merge(web::movie_routes::routes())
-    .layer(axum::middleware::from_fn(web::mw_auth::mw_require_auth))
+    .fallback(fallback_handler)
+    .nest("/api/v1", api_router)
     .layer(axum::middleware::map_response(
       web::mw_response_mapper::mw_response_mapper,
     ))

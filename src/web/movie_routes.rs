@@ -9,9 +9,9 @@ use crate::service;
 
 pub fn routes() -> Router {
   Router::new()
-    .route("/api/v1/movies", get(get_random_movies))
-    .route("/api/v1/series", get(get_random_series))
-    .route("/api/v1/download/:slug", get(get_download_info))
+    .route("/movies", get(get_random_movies))
+    .route("/series", get(get_random_series))
+    .route("/download/:slug", get(get_download_info))
 }
 
 async fn get_random_movies() -> Result<Json<impl Serialize>> {
