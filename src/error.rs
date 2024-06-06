@@ -5,6 +5,11 @@ pub type Result<T> = std::result::Result<T, Error>;
 
 #[derive(Clone, Debug)]
 pub enum Error {
+  // -- Auth
+  AuthFailNoToken,
+  AuthFailInvalidToken,
+  AuthFailIncorrectUsernameOrPassword,
+
   BackendServiceFail,
 }
 
@@ -32,6 +37,17 @@ impl Error {
       Self::BackendServiceFail => (
         StatusCode::INTERNAL_SERVER_ERROR,
         "internal backend service error",
+      ),
+
+      // -- Auth
+      Self::AuthFailNoToken => (
+        StatusCode::FORBIDDEN,
+        "auth faile with auth token not found",
+      ),
+      Self::AuthFailInvalidToken => (StatusCode::FORBIDDEN, "auth faile with invalid token"),
+      Self::AuthFailIncorrectUsernameOrPassword => (
+        StatusCode::FORBIDDEN,
+        "auth faile with incorrect username or password",
       ),
     }
   }

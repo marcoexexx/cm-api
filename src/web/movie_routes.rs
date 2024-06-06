@@ -26,10 +26,6 @@ async fn get_random_movies() -> Result<Json<impl Serialize>> {
 }
 
 async fn get_random_series() -> Result<Json<impl Serialize>> {
-  if true {
-    return Err(crate::error::Error::BackendServiceFail);
-  }
-
   Ok(Json(serde_json::json!({})))
 }
 
