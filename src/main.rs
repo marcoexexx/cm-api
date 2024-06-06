@@ -5,6 +5,7 @@ use reqwest::Method;
 mod error;
 mod model;
 mod service;
+mod response;
 mod web;
 mod ctx;
 
