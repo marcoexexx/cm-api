@@ -10,5 +10,4 @@ pub struct HttpListResponse<T: Serialize> {
 pub struct HttpResponse {
   pub message: String,
   pub status_code: u16,
-  pub error_type: Option<String>,
 }

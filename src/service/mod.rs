@@ -1,5 +1,6 @@
 pub mod get_info;
 pub mod get_movies;
+pub mod auth;
 
 use reqwest::Client;
 use scraper::Html;

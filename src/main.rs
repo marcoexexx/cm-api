@@ -2,12 +2,12 @@ use axum::http::HeaderValue;
 use axum::Router;
 use reqwest::Method;
 
+mod ctx;
 mod error;
 mod model;
-mod service;
 mod response;
+mod service;
 mod web;
-mod ctx;
 
 #[shuttle_runtime::main]
 async fn main() -> shuttle_axum::ShuttleAxum {
@@ -22,7 +22,12 @@ async fn main() -> shuttle_axum::ShuttleAxum {
     .allow_methods([Method::GET])
     .allow_origin(origins);
 
-  let router = Router::new().merge(web::movie_routes::routes()).layer(cors);
+  let router = Router::new()
+    .merge(web::movie_routes::routes())
+    .layer(axum::middleware::map_response(
+      web::mw_response_mapper::mw_response_mapper,
+    ))
+    .layer(cors);
 
   Ok(router.into())
 }
