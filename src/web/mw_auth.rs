@@ -12,7 +12,7 @@ use crate::service::auth;
 use crate::utils::decode_base64;
 
 pub async fn mw_require_auth(ctx: Result<Ctx>, req: Request<Body>, next: Next) -> Result<Response> {
-  ctx?;
+  // ctx?;
 
   Ok(next.run(req).await)
 }

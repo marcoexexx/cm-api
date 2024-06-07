@@ -1,3 +1,5 @@
+use std::{io::Write, os::unix::fs::FileExt};
+
 pub fn decode_base64(encoded: &str) -> Option<Vec<u8>> {
   let mut result = Vec::new();
   let mut buffer = 0;
@@ -28,4 +30,16 @@ pub fn decode_base64(encoded: &str) -> Option<Vec<u8>> {
   }
 
   Some(result)
+}
+
+pub fn write_html(content: &scraper::Html) {
+  let mut file = std::fs::File::options()
+    .create(true)
+    .write(true)
+    .open("_debug_content.html")
+    .unwrap();
+
+  let html = content.html();
+
+  file.write_all(html.as_bytes()).unwrap();
 }

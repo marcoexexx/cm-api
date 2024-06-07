@@ -13,7 +13,5 @@ pub struct Video {
   pub title: String,
   pub slug: String,
   pub cm_link: String,
-  pub description: String,
   pub poster: String,
-  pub photos: Vec<String>,
 }

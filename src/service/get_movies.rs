@@ -45,8 +45,6 @@ pub async fn get_random_movies() -> Result<Vec<Video>> {
       slug: cm_link.split("/").nth(3).unwrap_or("").to_owned(),
       title,
       poster,
-      photos: Vec::new(),
-      description: String::default(),
     })
   }
 

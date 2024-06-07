@@ -1,13 +1,14 @@
+pub mod auth;
 pub mod get_info;
 pub mod get_movies;
-pub mod auth;
+pub mod search_movies;
 
 use reqwest::Client;
 use scraper::Html;
 
 pub const BASE_URL: &str = "https://www.channelmyanmar.to";
 
-async fn get_document(url: &str) -> Html {
+pub async fn get_document(url: &str) -> Html {
   let client = Client::new();
 
   let response = client

@@ -11,8 +11,13 @@ mod error;
 mod model;
 mod response;
 mod service;
+mod tests;
 mod utils;
 mod web;
+
+async fn ping_pong_handler() -> impl IntoResponse {
+  (StatusCode::OK, "PONG")
+}
 
 async fn fallback_handler() -> impl IntoResponse {
   (StatusCode::NOT_FOUND, "nothing to see here")
@@ -28,6 +33,7 @@ async fn main() -> shuttle_axum::ShuttleAxum {
     .route_layer(axum::middleware::from_fn(web::mw_auth::mw_require_auth));
 
   let router = Router::new()
+    .route("/ping", axum::routing::get(ping_pong_handler))
     .fallback(fallback_handler)
     .nest("/api/v1", api_router)
     .layer(axum::middleware::map_response(
